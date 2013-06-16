@@ -33,9 +33,12 @@ public class worldgen implements IWorldGenerator {
 
    private void generateSurface(World world, Random random, int X, int Z) {
 
-	   	this.addOreSpawn(core.bluestoneore, world, random, X , Z, 16, 16, 7 + random.nextInt(7), 5, 15, 65);
+	   	this.addOreSpawn(core.bluestoneore, world, random, X , Z, 16, 16, 7 + random.nextInt(4), 5, 15, 65);
 	   	this.addOreSpawn(core.Bluestoneoredust,world,random, X, Z, 16, 16, 9 + random.nextInt(16), 6, 7, 40);
 	    this.addOreSpawn(core.bluestonediamondore,world,random, X, Z, 16, 16, 4 + random.nextInt(5), 4, 6, 21);
+	    this.addOreSpawn(core.bluestonecoalore,world,random, X, Z, 16, 16, 7 + random.nextInt(7), 5, 6, 75);
+	    this.addOreSpawn(core.bluestonegravel,world,random, X, Z, 16, 16, 10 + random.nextInt(9), 5, 6, 75);
+	    this.addOreSpawn(core.bluecobblestone,world,random, X, Z, 16, 16, 10 + random.nextInt(10), 5, 6, 75);
 
 	   
 	}
