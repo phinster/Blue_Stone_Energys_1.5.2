@@ -9,10 +9,34 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.EnumHelper;
+import bse.phin.armor.Itembluestoneboots;
 import bse.phin.armor.Itembluestonechestplate;
 import bse.phin.armor.Itembluestonediamondboots;
+import bse.phin.armor.Itembluestonediamondchestplate;
+import bse.phin.armor.Itembluestonediamondhelmet;
 import bse.phin.armor.Itembluestonediamondpants;
 import bse.phin.armor.Itembluestonehelmet;
+import bse.phin.armor.Itembluestonepants;
+import bse.phin.blocks.Blockbluecobblestone;
+import bse.phin.blocks.Blockblueglowstone;
+import bse.phin.blocks.Blockbluestoneblock;
+import bse.phin.blocks.Blockbluestonediamondblock;
+import bse.phin.blocks.Blockbluestonediamondore;
+import bse.phin.blocks.Blockbluestonefence;
+import bse.phin.blocks.Blockbluestonegravel;
+import bse.phin.blocks.Blockbluestoneleaf;
+import bse.phin.blocks.Blockbluestonemachineblock;
+import bse.phin.blocks.Blockbluestoneore;
+import bse.phin.blocks.Blockbluestoneoredust;
+import bse.phin.blocks.Blockbluestoneplank;
+import bse.phin.blocks.Blockbluestonetorch;
+import bse.phin.blocks.Blockchisledbluestone;
+import bse.phin.items.Itembluestonediamond;
+import bse.phin.items.Itembluestonediamondplate;
+import bse.phin.items.Itembluestonedust;
+import bse.phin.items.Itembluestoneingot;
+import bse.phin.items.Itembluestonestick;
+import bse.phin.items.Itembluestonewooddust;
 import bse.phin.tool.Itembluestoneaxe;
 import bse.phin.tool.Itembluestonediamondaxe;
 import bse.phin.tool.Itembluestonediamondhoe;
@@ -38,8 +62,6 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class core {
 	
 	
-	
-	
 	public static final String modid = "Blue Stone Energy's";
 	
 	/* items */
@@ -48,6 +70,7 @@ public class core {
 	public static Item bluestoneingot;
 	public static Item bluestonestick;
 	public static Item bluestonewooddust;
+	public static Item bluestonediamondplate;
 	
 	/* blocks */
 	public static Block bluestoneblock;
@@ -62,6 +85,8 @@ public class core {
 	public static Block bluestonefence;
 	public static Block bluestonegravel;
 	public static Block bluestonetorch;
+	public static Block bluestonediamondblock;
+	public static Block bluestonemachineblock;
 	
 	/*tools */
 	public static Item bluestoneaxe;
@@ -151,7 +176,7 @@ public class core {
 		GameRegistry.registerBlock(bluecobblestone, modid + bluecobblestone.getUnlocalizedName());
 		LanguageRegistry.addName(bluecobblestone, "Blue CobbleStone");
 		
-		blueglowstone = new Blockblueglowstone(1013, Material.rock).setUnlocalizedName("blueglowstone").setHardness(1.0F).setLightValue(15).setLightOpacity(1);
+		blueglowstone = new Blockblueglowstone(1013, Material.rock).setUnlocalizedName("blueglowstone").setHardness(1.0F).setLightValue(1.0F).setLightOpacity(0);
 		GameRegistry.registerBlock(blueglowstone, modid + blueglowstone.getUnlocalizedName());
 		LanguageRegistry.addName(blueglowstone, "Blue Glow Stone");
 		
@@ -163,10 +188,20 @@ public class core {
 		GameRegistry.registerBlock(bluestonegravel, modid + bluestonegravel.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonegravel, "Blue Stone Gravel");
 		
-		bluestonetorch= new Blockbluestonetorch(1016, Material.wood).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(10000);
+		bluestonetorch= new Blockbluestonetorch(1016, Material.wood).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(14);
 		GameRegistry.registerBlock(bluestonetorch, modid + bluestonetorch.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonetorch, "Blue Stone Torch");
 		
+		bluestonediamondblock = new Blockbluestonediamondblock(1017, Material.rock).setUnlocalizedName("bluestonediamondblock").setHardness(2F);
+		GameRegistry.registerBlock(bluestonediamondblock, modid + bluestonediamondblock.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonediamondblock, "Blue Stone Diamond Block");
+		
+		bluestonediamondplate = new Itembluestonediamondplate(1018).setUnlocalizedName("bluestonediamondplate");
+		LanguageRegistry.addName(bluestonediamondplate, "Blue Stone Diamond Plate");
+		
+		bluestonemachineblock = new Blockbluestonemachineblock(1019,Material.rock).setUnlocalizedName("bluestonemachineblock").setHardness(2.0F);
+		GameRegistry.registerBlock(bluestonemachineblock, modid + bluestonemachineblock.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonemachineblock, "Blue Stone Machine Block");
 		
 		
 		
@@ -189,8 +224,14 @@ public class core {
 		
 		bluestonehelmet = new Itembluestonehelmet(1212, armorbluestoneingot, 0, 0).setUnlocalizedName("bluestonehelmet").setCreativeTab(CreativeTabs.tabCombat);
 		bluestonechestplate = new Itembluestonechestplate(1213, armorbluestoneingot, 1, 1).setUnlocalizedName("bluestonechestplate").setCreativeTab(CreativeTabs.tabCombat);
-		bluestonepants = new Itembluestonediamondpants(1214, armorbluestoneingot, 2, 2).setUnlocalizedName("bluestonepants").setCreativeTab(CreativeTabs.tabCombat);
-		bluestoneboots = new Itembluestonediamondboots(1215, armorbluestoneingot, 3, 3).setUnlocalizedName("bluestoneboots").setCreativeTab(CreativeTabs.tabCombat);
+		bluestonepants = new Itembluestonepants(1214, armorbluestoneingot, 2, 2).setUnlocalizedName("bluestonepants").setCreativeTab(CreativeTabs.tabCombat);
+		bluestoneboots = new Itembluestoneboots(1215, armorbluestoneingot, 3, 3).setUnlocalizedName("bluestoneboots").setCreativeTab(CreativeTabs.tabCombat);
+		
+		bluestonediamondhelmet = new Itembluestonediamondhelmet(1216, armorbluestonediamond, 0 , 0).setUnlocalizedName("bluestonediamondhelmet").setCreativeTab(CreativeTabs.tabCombat);
+		bluestonediamondchestplate = new Itembluestonediamondchestplate(1217, armorbluestonediamond, 1 ,1).setUnlocalizedName("bluestonediamondchestplate").setCreativeTab(CreativeTabs.tabCombat);
+		bluestonediamondpants = new Itembluestonediamondpants(1218, armorbluestonediamond, 2 ,2).setUnlocalizedName("bluestonediamondpants").setCreativeTab(CreativeTabs.tabCombat);
+		bluestonediamondboots = new Itembluestonediamondboots(1219, armorbluestonediamond, 0, 0).setUnlocalizedName("bluestonediamondboots").setCreativeTab(CreativeTabs.tabCombat);
+		
 		
 		
 		/* tool names  + armor */
@@ -210,6 +251,11 @@ public class core {
 		LanguageRegistry.addName(bluestonechestplate, "Blue Stone Chestpeice");
 		LanguageRegistry.addName(bluestonepants, "Blue Stone Pants");
 		LanguageRegistry.addName(bluestoneboots, "Blue Stone Boots");
+		LanguageRegistry.addName(bluestonediamondhelmet, "Blue Stone Diamond Helmet");
+		LanguageRegistry.addName(bluestonediamondchestplate, "Blue Stone Diamond Chestpeice");
+		LanguageRegistry.addName(bluestonediamondpants, "Blue Stone Diamond Pants");
+		LanguageRegistry.addName(bluestonediamondboots, "Blue Stone Diamond Boots");
+		
 		
 		
 		/* smelting recipes*/
@@ -230,9 +276,9 @@ public class core {
 		GameRegistry.addRecipe(new ItemStack(bluestonesword,1), new Object[] { 
 			" T ", " T ", " S ", 'S', bluestonestick, 'T', bluestoneingot,
 		});
-		//GameRegistry.addRecipe(new ItemStack(bluestoneshear,1), new Object[] { 
-			//shapeless
-		//});
+		GameRegistry.addShapelessRecipe(new ItemStack(bluestoneshear,1), new Object[] { 
+			bluestoneingot,bluestoneingot
+		});
 		GameRegistry.addRecipe(new ItemStack(bluestonehoe,1), new Object[] { 
 			"TT ", " S ", " S ", 'S', bluestonestick, 'T', bluestoneingot,
 		});
@@ -248,8 +294,67 @@ public class core {
 		GameRegistry.addRecipe(new ItemStack(bluestonediamondpick,1), new Object[] { 
 			"TTT", " S ", " S ", 'S', bluestonestick, 'T', bluestonediamond,
 		});
-		//GameRegistry.addRecipe(new ItemStack(bluestonediamondshear,1), new Object[] { 
-			//shapeless
+		GameRegistry.addShapelessRecipe(new ItemStack(bluestonediamondshear,1), new Object[] { 
+			bluestonediamond,bluestonediamond
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonechestplate,1), new Object[] { 
+			"I I","III","III", 'I', bluestoneingot,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonepants, 1), new Object[] {
+			"III", "I I", "I I", 'I', bluestoneingot,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonehelmet, 1), new Object[] {
+			"III","I I",'I',bluestoneingot
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneboots, 1), new Object[] {
+			"I I","I I",'I',bluestoneingot
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondboots, 1), new Object[] {
+			"I I","I I",'I',bluestonediamond
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondhelmet, 1), new Object[] {
+			"III","I I",'I',bluestonediamond
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondpants, 1), new Object[] {
+			"III", "I I", "I I", 'I', bluestonediamond,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondchestplate,1), new Object[] { 
+			"I I","III","III", 'I', bluestonediamond,
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(bluestoneingot, 9), new Object[] {
+			bluestoneblock
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonestick, 4), new Object[] {
+			"I  ","I  ", 'I',bluestoneplank
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonestick, 4), new Object[] {
+			" I "," I ", 'I',bluestoneplank
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonestick, 4), new Object[] {
+			"  I","  I", 'I',bluestoneplank
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondblock, 1), new Object[] {
+			"III","III","III",'I',bluestonediamond
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(bluestonediamond, 9), new Object[] {
+			bluestonediamondblock
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonediamondplate,1), new Object[] {
+			"XXX","III","XXX", 'I', bluestoneingot, 'X', bluestonediamond,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonemachineblock,1), new Object[] {
+			"XXX","XDX","XXX", 'X', bluestoneingot, 'D', bluestonedust
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(blueglowstone,1), new Object[] {
+			bluestonedust,bluestonedust,bluestonedust,bluestonedust
+		});
+		
+		
+		
+				
+		
+		
+		
 		
 	
 		
