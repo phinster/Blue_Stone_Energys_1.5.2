@@ -1,4 +1,8 @@
 package bse.phin.blocks;
+
+import java.util.Random;
+
+import bse.phin.common.core;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -18,6 +22,14 @@ public class Blockbluestoneleaf extends Block{
 		this.blockIcon = reg.registerIcon("bse:bluestoneleaf");
 		
 	}
+	public int idDropped(int par1, Random rand, int par2) { 
+		return core.bluesilicondust.itemID;
 	
+	}	
 
+	public int quantityDropped(Random rand) { 
+	return 2;
+
+	}
+	
 }

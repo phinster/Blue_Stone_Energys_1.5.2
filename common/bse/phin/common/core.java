@@ -33,13 +33,22 @@ import bse.phin.blocks.Blockbluestoneoredust;
 import bse.phin.blocks.Blockbluestoneplank;
 import bse.phin.blocks.Blockbluestonetorch;
 import bse.phin.blocks.Blockchisledbluestone;
+import bse.phin.items.Itembluediamondstar;
+import bse.phin.items.Itemblueingotstar;
+import bse.phin.items.Itembluesiliconball;
+import bse.phin.items.Itembluesilicondust;
+import bse.phin.items.Itembluestonecarbon;
+import bse.phin.items.Itembluestonecarbonplate;
 import bse.phin.items.Itembluestonecoal;
+import bse.phin.items.Itembluestonecoaldust;
 import bse.phin.items.Itembluestonediamond;
 import bse.phin.items.Itembluestonediamondplate;
 import bse.phin.items.Itembluestonedust;
 import bse.phin.items.Itembluestoneingot;
+import bse.phin.items.Itembluestoneplate;
 import bse.phin.items.Itembluestonestick;
 import bse.phin.items.Itembluestonewooddust;
+import bse.phin.items.Itemrawbluesilicon;
 import bse.phin.tool.Itembluestoneaxe;
 import bse.phin.tool.Itembluestonediamondaxe;
 import bse.phin.tool.Itembluestonediamondhoe;
@@ -73,7 +82,7 @@ public class core {
 	
 	public static final String modid = "Blue Stone Energy's";
 	
-	/* items */
+	/* items */// indicates that i need to implement a recipe still // just for organization purposes
 	public static Item bluestonediamond;
 	public static Item bluestonedust;
 	public static Item bluestoneingot;
@@ -81,13 +90,22 @@ public class core {
 	public static Item bluestonewooddust; //
 	public static Item bluestonediamondplate;
 	public static Item bluestonecoal;
+	public static Item bluestonecoaldust; 
+	public static Item bluestonecarbon;
+	public static Item bluestonecarbonplate;
+	public static Item blueingotstar;
+	public static Item bluediamondstar;
+	public static Item bluestoneplate; 
+	public static Item rawbluesilicon;
+	public static Item bluesilicondust;//dropped from trees
+	public static Item bluesiliconball;
 	
 	/* blocks */
-	public static Block bluestoneblock; //
+	public static Block bluestoneblock; 
 	public static Block bluestoneplank; //need a super block ie bluestonewood = 4 planks
 	public static Block chisledbluestone; 
 	public static Block bluestoneore;
-	public static Block Bluestoneoredust;
+	public static Block Bluestoneoredust; 
 	public static Block bluestonediamondore;
 	public static Block bluestoneleaf; //gen//
 	public static Block bluecobblestone;
@@ -153,7 +171,7 @@ public class core {
 		/*misc blocks ids 1000-1200*/
 		bluestoneblock = new Blockbluestoneblock(1000, Material.rock).setUnlocalizedName("bluestoneblock").setHardness(2.5f);
 		GameRegistry.registerBlock(bluestoneblock, modid + bluestoneblock.getUnlocalizedName());
-		LanguageRegistry.addName(bluestoneblock, "Blue Stone Block");
+		LanguageRegistry.addName(bluestoneblock, "Blue Stone Ingot Block");
 		
 		bluestoneingot = new Itembluestoneingot(1001).setUnlocalizedName("bluestoneingot");
 		LanguageRegistry.addName(bluestoneingot, "Blue Stone Ingot");
@@ -239,7 +257,32 @@ public class core {
 		GameRegistry.registerBlock(bluesmoothstone, modid + bluesmoothstone.getUnlocalizedName());
 		LanguageRegistry.addName(bluesmoothstone, "Blue Smooth Stone");
 		
+		bluestonecoaldust = new Itembluestonecoaldust(1023).setUnlocalizedName("bluestonecoaldust");
+		LanguageRegistry.addName(bluestonecoaldust, "Blue Stone Coal Dust");
 		
+		bluestonecarbon = new Itembluestonecarbon(1024).setUnlocalizedName("bluestonecarbon");
+		LanguageRegistry.addName(bluestonecarbon, "Blue Stone Carbon");
+		
+		bluestonecarbonplate = new Itembluestonecarbonplate(1025).setUnlocalizedName("bluestonecarbonplate");
+		LanguageRegistry.addName(bluestonecarbonplate, "Blue Stone Carbon Plate");
+		
+		blueingotstar = new Itemblueingotstar(1026).setUnlocalizedName("blueingotstar");
+		LanguageRegistry.addName(blueingotstar, "Blue Ingot Star");
+		
+		bluediamondstar = new Itembluediamondstar(1027).setUnlocalizedName("bluediamondstar");
+		LanguageRegistry.addName(bluediamondstar, "Blue Stone Diamond Star");
+		
+		bluestoneplate = new Itembluestoneplate(1028).setUnlocalizedName("bluestoneplate"); 
+		LanguageRegistry.addName(bluestoneplate, "Blue Stone Plate");
+		
+		rawbluesilicon = new Itemrawbluesilicon(1029).setUnlocalizedName("rawbluesilicon");
+		LanguageRegistry.addName(rawbluesilicon, "Raw Blue Stone Silicon"); 
+		
+		bluesilicondust = new Itembluesilicondust(1030).setUnlocalizedName("bluesilicondust");
+		LanguageRegistry.addName(bluesilicondust, "Blue Silicon Dust");
+		
+		bluesiliconball = new Itembluesiliconball(1031).setUnlocalizedName("bluesiliconball");
+		LanguageRegistry.addName(bluesiliconball, "Blue Silicon Ball");
 		
 		
 		//bluestone = new bluestone() 
@@ -295,10 +338,12 @@ public class core {
 		
 		
 		/* smelting recipes*/
-		//GameRegistry.addSmelting(core.bluestoneore.blockID, new ItemStack(bluestoneingot), 4.0F);
+		GameRegistry.addSmelting(core.bluestoneore.blockID, new ItemStack(bluestoneingot), 4.0F);
 		GameRegistry.addSmelting(core.bluestonedust.itemID, new ItemStack(bluestoneingot), 4.0F);
 		GameRegistry.addSmelting(core.bluestoneingot.itemID, new ItemStack(bluestonedust), 4.0F);
 		GameRegistry.addSmelting(core.bluecobblestone.blockID, new ItemStack(bluesmoothstone), 4.0F);
+		GameRegistry.addSmelting(core.bluestonecoaldust.itemID, new ItemStack(bluestonecarbon), 5.0F);
+		GameRegistry.addSmelting(core.bluestonecoal.itemID, new ItemStack(bluestonecoaldust), 5.0F);
 		
 		/* recipes */
 		GameRegistry.addRecipe(new ItemStack(bluestoneblock,1), new Object[] { 
@@ -394,9 +439,46 @@ public class core {
 		GameRegistry.addRecipe(new ItemStack(bluestonetorch,4), new Object[] {
 			"  I","  S",  'I',bluestonecoal, 'S', bluestonestick
 		});
-		GameRegistry.addShapelessRecipe(new ItemStack(chisledbluestone,4), new Object[] {
-			bluecobblestone,bluecobblestone,bluecobblestone,bluecobblestone
+		GameRegistry.addRecipe(new ItemStack(chisledbluestone,4), new Object[] {
+			"II ", "II ", 'I', bluesmoothstone
 		});
+		GameRegistry.addRecipe(new ItemStack(chisledbluestone,4), new Object[] {
+			" II", " II", 'I', bluesmoothstone
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonecarbonplate,1), new Object[] {
+			"CCC","CDC","CCC",'C',bluestonecarbon,'D',bluestonedust
+		});
+		GameRegistry.addRecipe(new ItemStack(blueingotstar,1), new Object[] {
+			" I ", "III", " I ", 'I', bluestoneingot,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluediamondstar,1), new Object[] {
+			" I ", "III", " I ", 'I', bluestonediamond,
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneplate,1), new Object[] { 
+			"III","DDD","III",'I',bluestoneingot,'D',bluestonedust
+		});
+		GameRegistry.addRecipe(new ItemStack(rawbluesilicon,1), new Object[] {
+			"SS ", "SS ", 'S', bluesilicondust
+		});
+		GameRegistry.addRecipe(new ItemStack(rawbluesilicon,1), new Object[] {
+			" SS", " SS", 'S', bluesilicondust
+		});
+		GameRegistry.addRecipe(new ItemStack(bluesiliconball,2), new Object[] {
+			"SSS", "SDS", "SSS", 'S', rawbluesilicon,'D',bluestonedust 
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonefence,2), new Object[] {
+			"SSS","SSS",'S',bluestonestick
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneplank,2), new Object[] {
+			" SS"," SS",'S',bluestonestick
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneplank,4), new Object[] {
+			"SS ","SS ",'S',bluestonestick
+		});
+		
+		
+		
+		
 		
 		
 		
