@@ -30,7 +30,7 @@ public class Blockbluestoneoredust extends Block{
 	}
 	
 	public int quantityDropped(Random rand) { 
-		return 3;
+		return 2;
 		
 	}
 	

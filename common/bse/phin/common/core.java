@@ -8,6 +8,7 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.EnumHelper;
 import bse.phin.armor.Itembluestoneboots;
 import bse.phin.armor.Itembluestonechestplate;
@@ -17,6 +18,7 @@ import bse.phin.armor.Itembluestonediamondhelmet;
 import bse.phin.armor.Itembluestonediamondpants;
 import bse.phin.armor.Itembluestonehelmet;
 import bse.phin.armor.Itembluestonepants;
+import bse.phin.biomes.Biomebluestoneforest;
 import bse.phin.blocks.Blockbluecobblestone;
 import bse.phin.blocks.Blockblueglowstone;
 import bse.phin.blocks.Blockbluesmoothstone;
@@ -24,6 +26,7 @@ import bse.phin.blocks.Blockbluestoneblock;
 import bse.phin.blocks.Blockbluestonecoalore;
 import bse.phin.blocks.Blockbluestonediamondblock;
 import bse.phin.blocks.Blockbluestonediamondore;
+import bse.phin.blocks.Blockbluestonedirt;
 import bse.phin.blocks.Blockbluestonefence;
 import bse.phin.blocks.Blockbluestonegravel;
 import bse.phin.blocks.Blockbluestoneleaf;
@@ -32,6 +35,7 @@ import bse.phin.blocks.Blockbluestoneore;
 import bse.phin.blocks.Blockbluestoneoredust;
 import bse.phin.blocks.Blockbluestoneplank;
 import bse.phin.blocks.Blockbluestonetorch;
+import bse.phin.blocks.Blockbluetonewood;
 import bse.phin.blocks.Blockchisledbluestone;
 import bse.phin.items.Itembluediamondstar;
 import bse.phin.items.Itemblueingotstar;
@@ -49,6 +53,12 @@ import bse.phin.items.Itembluestoneplate;
 import bse.phin.items.Itembluestonestick;
 import bse.phin.items.Itembluestonewooddust;
 import bse.phin.items.Itemrawbluesilicon;
+import bse.phin.machines.Blockbluestonecompressor;
+import bse.phin.machines.Blockbluestoneextractor;
+import bse.phin.machines.Blockbluestoneforge;
+import bse.phin.machines.Blockbluestoneliquiddeployer;
+import bse.phin.machines.Blockbluestonerockcrusher;
+import bse.phin.machines.Blockbluestonesmelter;
 import bse.phin.tool.Itembluestoneaxe;
 import bse.phin.tool.Itembluestonediamondaxe;
 import bse.phin.tool.Itembluestonediamondhoe;
@@ -74,13 +84,18 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "bse", name = "Blue Stone Energy's", version = "0.0")
+@Mod(modid = "bse", name = "Blue Stone Energy's", version = "Alpha 1.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 
 public class core {
 	
 	
 	public static final String modid = "Blue Stone Energy's";
+	
+	//biome and maybe biomes and biome blocks
+	public static BiomeGenBase bluestoneforest;														
+	
+	public static final Block bluestonedirt = (new Blockbluestonedirt(160, Material.ground).setUnlocalizedName("bluestonedirt").setHardness(0.5F).setResistance(1.1F).setStepSound(Block.soundGrassFootstep));
 	
 	/* items */// indicates that i need to implement a recipe still // just for organization purposes
 	public static Item bluestonediamond;
@@ -97,8 +112,17 @@ public class core {
 	public static Item bluediamondstar;
 	public static Item bluestoneplate; 
 	public static Item rawbluesilicon;
-	public static Item bluesilicondust;//dropped from trees
+	public static Item bluesilicondust;
 	public static Item bluesiliconball;
+	
+	//machines 
+	public static Block bluestonesmelter;
+	public static Block bluestonerockcrusher;
+	public static Block bluestonecompressor;
+	public static Block bluestoneextractor;
+	public static Block bluestoneforge;
+	public static Block bluestoneliquiddeployer;  
+	
 	
 	/* blocks */
 	public static Block bluestoneblock; 
@@ -111,12 +135,13 @@ public class core {
 	public static Block bluecobblestone;
 	public static Block blueglowstone;
 	public static Block bluestonefence;//
-	public static Block bluestonegravel; 
-	public static Block bluestonetorch;
+	public static Block bluestonegravel; //bugged
+	public static Block bluestonetorch; // bugged
 	public static Block bluestonediamondblock;
 	public static Block bluestonemachineblock;
 	public static Block bluestonecoalore;
 	public static Block bluesmoothstone;
+	public static Block bluetonewood;
 	
 	/*tools */
 	public static Item bluestoneaxe;
@@ -168,7 +193,7 @@ public class core {
 	
 		
 		
-		/*misc blocks ids 1000-1200*/
+		/*misc blocks ids 1000-1200  */
 		bluestoneblock = new Blockbluestoneblock(1000, Material.rock).setUnlocalizedName("bluestoneblock").setHardness(2.5f);
 		GameRegistry.registerBlock(bluestoneblock, modid + bluestoneblock.getUnlocalizedName());
 		LanguageRegistry.addName(bluestoneblock, "Blue Stone Ingot Block");
@@ -205,7 +230,7 @@ public class core {
 		GameRegistry.registerWorldGenerator(eventmanager);
 		GameRegistry.registerFuelHandler(fuelHandler);
 		
-		bluestoneleaf = new Blockbluestoneleaf(1009, Material.leaves).setUnlocalizedName("bluestoneleaf").setHardness(1.0f).setLightValue(90);                              
+		bluestoneleaf = new Blockbluestoneleaf(1009, Material.leaves).setUnlocalizedName("bluestoneleaf").setLightValue(0.3f).setHardness(0.9f);// configing still                             
 		GameRegistry.registerBlock(bluestoneleaf, modid + bluestoneleaf.getUnlocalizedName());
 		LanguageRegistry.addName(bluestoneleaf, "Blue Stone Leaf");
 		
@@ -231,7 +256,7 @@ public class core {
 		GameRegistry.registerBlock(bluestonegravel, modid + bluestonegravel.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonegravel, "Blue Stone Gravel");
 		
-		bluestonetorch= new Blockbluestonetorch(1016, Material.wood).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(14);
+		bluestonetorch= new Blockbluestonetorch(1016, Material.wood).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(1.0f);
 		GameRegistry.registerBlock(bluestonetorch, modid + bluestonetorch.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonetorch, "Blue Stone Torch");
 		
@@ -284,8 +309,24 @@ public class core {
 		bluesiliconball = new Itembluesiliconball(1031).setUnlocalizedName("bluesiliconball");
 		LanguageRegistry.addName(bluesiliconball, "Blue Silicon Ball");
 		
+		bluetonewood = new Blockbluetonewood(1032, Material.wood).setUnlocalizedName("bluetonewood").setHardness(2.0f);
+		GameRegistry.registerBlock(bluetonewood, modid + bluetonewood.getUnlocalizedName());
+		LanguageRegistry.addName(bluetonewood, "Blue Stone Oak Wood");
 		
-		//bluestone = new bluestone() 
+		
+		
+		
+		//bluestone = new bluestone()
+		
+		//biome block registry
+		GameRegistry.registerBlock(bluestonedirt, modid + bluestonedirt.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonedirt, "Blue Stone Dirt");
+		
+		
+		
+		
+		
+		
 		
 		/*tools ids 1200-1350*/
 		bluestoneaxe = new Itembluestoneaxe(1200, toolbluestoneingot).setUnlocalizedName("bluestoneaxe").setCreativeTab(CreativeTabs.tabTools);
@@ -311,6 +352,11 @@ public class core {
 		bluestonediamondpants = new Itembluestonediamondpants(1218, armorbluestonediamond, 2 ,2).setUnlocalizedName("bluestonediamondpants").setCreativeTab(CreativeTabs.tabCombat);
 		bluestonediamondboots = new Itembluestonediamondboots(1219, armorbluestonediamond, 3, 3).setUnlocalizedName("bluestonediamondboots").setCreativeTab(CreativeTabs.tabCombat);
 		
+		//Biome declarations 
+		bluestoneforest = new Biomebluestoneforest(150).setBiomeName("Blue Stone Forest").setMinMaxHeight(0.23F, 0.22F);
+		GameRegistry.addBiome(bluestoneforest);
+		
+		
 		
 		
 		/* tool names  + armor */
@@ -335,7 +381,35 @@ public class core {
 		LanguageRegistry.addName(bluestonediamondpants, "Blue Stone Diamond Pants");
 		LanguageRegistry.addName(bluestonediamondboots, "Blue Stone Diamond Boots");
 		
+		//machines id 1350 - 1450
+		bluestonesmelter = new Blockbluestonesmelter(1350, Material.rock).setUnlocalizedName("bluestonesmelter").setHardness(1.5F).setLightValue(0.2f);
+		GameRegistry.registerBlock(bluestonesmelter, modid  + bluestonesmelter.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonesmelter, "Blue Stone Smelter");
 		
+		bluestonerockcrusher = new Blockbluestonerockcrusher(1351, Material.rock).setUnlocalizedName("bluestonerockcrusher").setHardness(1.5f).setLightValue(0.2f);
+		GameRegistry.registerBlock(bluestonerockcrusher, modid + bluestonerockcrusher.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonerockcrusher, "Blue Stone Rock Crusher");
+		
+		bluestonecompressor = new Blockbluestonecompressor(1352, Material.rock).setUnlocalizedName("bluestonecompressor").setHardness(1.5f).setLightValue(0.2f);
+	    GameRegistry.registerBlock(bluestonecompressor, modid + bluestonecompressor.getUnlocalizedName());
+	    LanguageRegistry.addName(bluestonecompressor, "Blue Stone Compressor");	
+	    
+	    bluestoneextractor = new Blockbluestoneextractor(1353, Material.rock).setUnlocalizedName("bluestoneextractor").setHardness(1.5f).setLightValue(0.2f);
+	    GameRegistry.registerBlock(bluestoneextractor, modid + bluestoneextractor.getUnlocalizedName());
+	    LanguageRegistry.addName(bluestoneextractor, "Blue Stone Extractor");
+	    
+	    bluestoneforge = new Blockbluestoneforge(1354, Material.rock).setUnlocalizedName("bluestoneforge").setHardness(1.5f).setLightValue(0.2f);
+	    GameRegistry.registerBlock(bluestoneforge, modid + bluestoneforge.getUnlocalizedName());
+	    LanguageRegistry.addName(bluestoneforge, "Blue Stone Forge");
+	    
+	    bluestoneliquiddeployer = new Blockbluestoneliquiddeployer(1355, Material.rock).setUnlocalizedName("bluestoneliquiddeployer").setHardness(1.5f).setLightValue(0.2f);
+	    GameRegistry.registerBlock(bluestoneliquiddeployer, modid + bluestoneliquiddeployer.getUnlocalizedName());
+	    LanguageRegistry.addName(bluestoneliquiddeployer, "Blue Stone Liquid Deployer");
+	    
+	    
+	    
+	    
+	    
 		
 		/* smelting recipes*/
 		GameRegistry.addSmelting(core.bluestoneore.blockID, new ItemStack(bluestoneingot), 4.0F);
@@ -475,6 +549,22 @@ public class core {
 		GameRegistry.addRecipe(new ItemStack(bluestoneplank,4), new Object[] {
 			"SS ","SS ",'S',bluestonestick
 		});
+		GameRegistry.addShapelessRecipe(new ItemStack(bluestoneplank,4), new Object[] {
+			bluetonewood
+		});
+		
+		//machine recipes
+		GameRegistry.addRecipe(new ItemStack(bluestonesmelter,1), new Object[] {
+			"SDS","SBS","SDS",'S',bluesmoothstone,'B', bluestonemachineblock,'D',bluestonedust
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonerockcrusher,1), new Object[] {
+			"SSS", "CMC","CDC", 'D',bluestonedust , 'M',bluestonemachineblock,'S', bluesilicondust, 'C', bluecobblestone
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneliquiddeployer,1), new Object[] {
+			"BBB","SMS","DCD",'D',bluestonedust,'B',Item.bucketWater,'S',bluesmoothstone,'M',bluestonemachineblock,'C',bluecobblestone
+		});
+		
+		
 		
 		
 		

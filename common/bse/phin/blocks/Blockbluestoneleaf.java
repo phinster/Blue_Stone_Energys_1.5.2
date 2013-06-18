@@ -28,7 +28,7 @@ public class Blockbluestoneleaf extends Block{
 	}	
 
 	public int quantityDropped(Random rand) { 
-	return 2;
+	return 1;
 
 	}
 	

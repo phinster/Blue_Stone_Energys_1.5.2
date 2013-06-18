@@ -39,7 +39,7 @@ public class worldgen implements IWorldGenerator {
 	    this.addOreSpawn(core.bluestonecoalore,world,random, X, Z, 16, 16, 7 + random.nextInt(7), 5, 6, 75);
 	    this.addOreSpawn(core.bluestonegravel,world,random, X, Z, 16, 16, 10 + random.nextInt(9), 5, 6, 75);
 	    this.addOreSpawn(core.bluecobblestone,world,random, X, Z, 16, 16, 10 + random.nextInt(10), 5, 6, 75);
-
+	    this.addOreSpawn(core.bluestonedirt,world,random, X, Z, 16, 16, 10 + random.nextInt(15), 5, 6, 75);
 	   
 	}
 
