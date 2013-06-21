@@ -7,8 +7,8 @@ public class Biomebluestoneforest extends BiomeGenBase{
 
 	public Biomebluestoneforest(int par1) {
 		super(par1);
-		this.topBlock = (byte)Block.cobblestone.blockID;
-		this.fillerBlock = (byte)Block.bedrock.blockID;
+		this.topBlock = (byte)Block.blockDiamond.blockID;
+		this.fillerBlock = (byte)Block.blockRedstone.blockID;
 	}
 
 }

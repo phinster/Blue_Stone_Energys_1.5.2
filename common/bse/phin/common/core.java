@@ -1,15 +1,19 @@
 package bse.phin.common;
 
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.BaseMod;
+import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.EnumHelper;
+import bse.phin.GUIhandler.GUIBlockbluestonechest;
 import bse.phin.armor.Itembluestoneboots;
 import bse.phin.armor.Itembluestonechestplate;
 import bse.phin.armor.Itembluestonediamondboots;
@@ -23,6 +27,7 @@ import bse.phin.blocks.Blockbluecobblestone;
 import bse.phin.blocks.Blockblueglowstone;
 import bse.phin.blocks.Blockbluesmoothstone;
 import bse.phin.blocks.Blockbluestoneblock;
+import bse.phin.blocks.Blockbluestonechest;
 import bse.phin.blocks.Blockbluestonecoalore;
 import bse.phin.blocks.Blockbluestonediamondblock;
 import bse.phin.blocks.Blockbluestonediamondore;
@@ -37,6 +42,7 @@ import bse.phin.blocks.Blockbluestoneplank;
 import bse.phin.blocks.Blockbluestonetorch;
 import bse.phin.blocks.Blockbluetonewood;
 import bse.phin.blocks.Blockchisledbluestone;
+import bse.phin.blocks.Blockmoltenbluestone;
 import bse.phin.items.Itembluediamondstar;
 import bse.phin.items.Itemblueingotstar;
 import bse.phin.items.Itembluesiliconball;
@@ -53,12 +59,14 @@ import bse.phin.items.Itembluestoneplate;
 import bse.phin.items.Itembluestonestick;
 import bse.phin.items.Itembluestonewooddust;
 import bse.phin.items.Itemrawbluesilicon;
+import bse.phin.lib.reference;
 import bse.phin.machines.Blockbluestonecompressor;
 import bse.phin.machines.Blockbluestoneextractor;
 import bse.phin.machines.Blockbluestoneforge;
 import bse.phin.machines.Blockbluestoneliquiddeployer;
 import bse.phin.machines.Blockbluestonerockcrusher;
 import bse.phin.machines.Blockbluestonesmelter;
+import bse.phin.tileentitys.TileEntityBlockbluestonechest;
 import bse.phin.tool.Itembluestoneaxe;
 import bse.phin.tool.Itembluestonediamondaxe;
 import bse.phin.tool.Itembluestonediamondhoe;
@@ -84,10 +92,10 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "bse", name = "Blue Stone Energy's", version = "Alpha 1.0")
+@Mod(modid = reference.MOD_ID , name = reference.MOD_NAME , version = reference.VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 
-public class core {
+public class core extends BaseMod {
 	
 	
 	public static final String modid = "Blue Stone Energy's";
@@ -119,9 +127,9 @@ public class core {
 	public static Block bluestonesmelter;
 	public static Block bluestonerockcrusher;
 	public static Block bluestonecompressor;
-	public static Block bluestoneextractor;
+	public static Block bluestoneextractor; 
 	public static Block bluestoneforge;
-	public static Block bluestoneliquiddeployer;  
+	public static Block bluestoneliquiddeployer;   
 	
 	
 	/* blocks */
@@ -135,14 +143,16 @@ public class core {
 	public static Block bluecobblestone;
 	public static Block blueglowstone;
 	public static Block bluestonefence;//
-	public static Block bluestonegravel; //bugged
-	public static Block bluestonetorch; // bugged
+	public static Block bluestonegravel; // 
+	public static Block bluestonetorch; // 
 	public static Block bluestonediamondblock;
 	public static Block bluestonemachineblock;
 	public static Block bluestonecoalore;
 	public static Block bluesmoothstone;
 	public static Block bluetonewood;
-	
+	public static Block bluestonechest;//
+	public static Block moltenbluestone;//
+
 	/*tools */
 	public static Item bluestoneaxe;
 	public static Item bluestonesword;
@@ -174,10 +184,11 @@ public class core {
 	
 	public static EnumArmorMaterial armorbluestonediamond = EnumHelper.addArmorMaterial("BLUESTONEDIAMOND", 40,  new int[]{3, 11, 9, 5}, 30);
 	public static EnumArmorMaterial armorbluestoneingot = EnumHelper.addArmorMaterial("BLUESTONEINGOT", 19, new int[]{2, 6, 5, 3}, 15);                                          
-	public static EnumToolMaterial toolbluestonediamond = EnumHelper.addToolMaterial("BLUESTONEDIAMOND", 3, 4000, 12.0F, 6, 30);
-	public static EnumToolMaterial toolbluestoneingot = EnumHelper.addToolMaterial("BLUESTONEINGOT", 2, 2000, 6.0F, 3, 15);
+	public static EnumToolMaterial toolbluestonediamond = EnumHelper.addToolMaterial("BLUESTONEDIAMOND", 3, 4000, 6.0F, 6, 13);
+	public static EnumToolMaterial toolbluestoneingot = EnumHelper.addToolMaterial("BLUESTONEINGOT", 2, 2000, 3.5F, 3, 7);
 	worldgen eventmanager = new worldgen();
 	customfuels fuelHandler = new customfuels();
+	
 	
 	@Instance("phin")
 	public static core instance;
@@ -186,7 +197,9 @@ public class core {
 	public static commonproxy proxy;
 	
 	@PreInit
-	public void preInit (FMLPreInitializationEvent event) {}
+	public void preInit (FMLPreInitializationEvent event) {
+		
+	}
 	
 	@Init
 	public void load(FMLInitializationEvent event) {
@@ -313,6 +326,14 @@ public class core {
 		GameRegistry.registerBlock(bluetonewood, modid + bluetonewood.getUnlocalizedName());
 		LanguageRegistry.addName(bluetonewood, "Blue Stone Oak Wood");
 		
+		bluestonechest = new Blockbluestonechest(1033, Material.rock).setUnlocalizedName("bluestonechest").setHardness(2.0f);
+		GameRegistry.registerBlock(bluestonechest, modid + bluestonechest.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonechest, "Blue Stone Chest");
+		
+		moltenbluestone = new Blockmoltenbluestone(1034, Material.rock).setUnlocalizedName("moltenbluestone").setHardness(10.0f).setLightValue(0.7F).setResistance(0.9F);
+		GameRegistry.registerBlock(moltenbluestone, modid + moltenbluestone.getUnlocalizedName());
+		LanguageRegistry.addName(moltenbluestone, "Molten Blue Stone");
+		
 		
 		
 		
@@ -405,6 +426,12 @@ public class core {
 	    bluestoneliquiddeployer = new Blockbluestoneliquiddeployer(1355, Material.rock).setUnlocalizedName("bluestoneliquiddeployer").setHardness(1.5f).setLightValue(0.2f);
 	    GameRegistry.registerBlock(bluestoneliquiddeployer, modid + bluestoneliquiddeployer.getUnlocalizedName());
 	    LanguageRegistry.addName(bluestoneliquiddeployer, "Blue Stone Liquid Deployer");
+	    
+	    //container/gui declarations
+	    ModLoader.registerContainerID(this, 30);
+	    
+	    //tile entity's
+	    GameRegistry.registerTileEntity(TileEntityBlockbluestonechest.class , "TileEntityBlockbluestonechest");
 	    
 	    
 	    
@@ -552,6 +579,9 @@ public class core {
 		GameRegistry.addShapelessRecipe(new ItemStack(bluestoneplank,4), new Object[] {
 			bluetonewood
 		});
+		GameRegistry.addRecipe(new ItemStack(bluestonechest,1), new Object[] {
+			"SSS","S S","SSS",'S',bluesmoothstone
+		});
 		
 		//machine recipes
 		GameRegistry.addRecipe(new ItemStack(bluestonesmelter,1), new Object[] {
@@ -563,6 +593,32 @@ public class core {
 		GameRegistry.addRecipe(new ItemStack(bluestoneliquiddeployer,1), new Object[] {
 			"BBB","SMS","DCD",'D',bluestonedust,'B',Item.bucketWater,'S',bluesmoothstone,'M',bluestonemachineblock,'C',bluecobblestone
 		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneforge,1), new Object[] {
+			"PCP","SMS","LCL",'L',Item.bucketLava, 'P', bluesiliconball,'C',bluecobblestone,'S',bluesilicondust,'M',bluestonemachineblock
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestoneextractor,1), new Object[] {
+			"DID","IMI","B B", 'B',Item.bucketWater,'D',bluestonedust,'M',bluestonemachineblock,'I',bluestoneingot
+		});
+		GameRegistry.addRecipe(new ItemStack(bluestonecompressor,1), new Object[] {
+			"CIC","IMI","BLB",'C',bluestonecarbonplate,'I',bluestoneingot,'M', bluestonemachineblock,'B',bluecobblestone,'L',Item.bucketLava
+		});
+		
+		
+		
+	}
+	
+	
+	//Declaration of the gui containers for all of blue stone energy's
+	public GuiContainer getContainerGUI(EntityClientPlayerMP player, int id, int x, int y, int z) { 
+		switch(id) { 
+		case 30:
+			return new GUIBlockbluestonechest(player.inventory, x, y, z);
+		
+		default:
+			return null;
+		
+		}
+	}
 		
 		
 		
@@ -571,9 +627,7 @@ public class core {
 		
 		
 		
-		
-		
-		
+		                                                                                                                                                 
 		
 				
 		
@@ -586,14 +640,24 @@ public class core {
 		
 		
 		
-		}
+		
 	
 	@PostInit
 	public static void postInit(FMLPostInitializationEvent event) {
 		
 		}
-		
+
+	@Override
+	public String getVersion() {
+	return null;
 	}
+
+	@Override
+	public void load() {
+	
+	}
+		
+}
 
 	
 		
