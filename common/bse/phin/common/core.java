@@ -37,6 +37,7 @@ import bse.phin.blocks.Blockbluestoneplank;
 import bse.phin.blocks.Blockbluestonetorch;
 import bse.phin.blocks.Blockbluetonewood;
 import bse.phin.blocks.Blockchisledbluestone;
+import bse.phin.blocks.Blockmoltenbluestone;
 import bse.phin.items.Itembluediamondstar;
 import bse.phin.items.Itemblueingotstar;
 import bse.phin.items.Itembluesiliconball;
@@ -52,6 +53,7 @@ import bse.phin.items.Itembluestoneingot;
 import bse.phin.items.Itembluestoneplate;
 import bse.phin.items.Itembluestonestick;
 import bse.phin.items.Itembluestonewooddust;
+import bse.phin.items.Itemmoltenbluestoneingot;
 import bse.phin.items.Itemrawbluesilicon;
 import bse.phin.machines.Blockbluestonecompressor;
 import bse.phin.machines.Blockbluestoneextractor;
@@ -89,7 +91,6 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class core {
 	
-	
 	public static final String modid = "Blue Stone Energy's";
 	
 	//biome and maybe biomes and biome blocks
@@ -114,6 +115,7 @@ public class core {
 	public static Item rawbluesilicon;
 	public static Item bluesilicondust;
 	public static Item bluesiliconball;
+	public static Item moltenbluestoneingot;
 	
 	//machines 
 	public static Block bluestonesmelter;
@@ -126,7 +128,7 @@ public class core {
 	
 	/* blocks */
 	public static Block bluestoneblock; 
-	public static Block bluestoneplank; //need a super block ie bluestonewood = 4 planks
+	public static Block bluestoneplank; 
 	public static Block chisledbluestone; 
 	public static Block bluestoneore;
 	public static Block Bluestoneoredust; 
@@ -135,13 +137,18 @@ public class core {
 	public static Block bluecobblestone;
 	public static Block blueglowstone;
 	public static Block bluestonefence;//
-	public static Block bluestonegravel; //bugged
+	public static Block bluestonegravel; 
 	public static Block bluestonetorch; // bugged
 	public static Block bluestonediamondblock;
 	public static Block bluestonemachineblock;
 	public static Block bluestonecoalore;
 	public static Block bluesmoothstone;
 	public static Block bluetonewood;
+	public static Block moltenbluestone;
+	
+	//liquids
+	public static Block bluestoneoilstill; //
+	public static Block bluestoneoilflow; //
 	
 	/*tools */
 	public static Item bluestoneaxe;
@@ -186,7 +193,9 @@ public class core {
 	public static commonproxy proxy;
 	
 	@PreInit
-	public void preInit (FMLPreInitializationEvent event) {}
+	public void preInit (FMLPreInitializationEvent event) { 
+		
+	}
 	
 	@Init
 	public void load(FMLInitializationEvent event) {
@@ -227,9 +236,6 @@ public class core {
 		bluestonediamond = new Itembluestonediamond(1008).setUnlocalizedName("bluestonediamond");
 		LanguageRegistry.addName(bluestonediamond, "Blue Stone Diamond");
 		
-		GameRegistry.registerWorldGenerator(eventmanager);
-		GameRegistry.registerFuelHandler(fuelHandler);
-		
 		bluestoneleaf = new Blockbluestoneleaf(1009, Material.leaves).setUnlocalizedName("bluestoneleaf").setLightValue(0.3f).setHardness(0.9f);// configing still                             
 		GameRegistry.registerBlock(bluestoneleaf, modid + bluestoneleaf.getUnlocalizedName());
 		LanguageRegistry.addName(bluestoneleaf, "Blue Stone Leaf");
@@ -252,11 +258,11 @@ public class core {
 		GameRegistry.registerBlock(bluestonefence, modid + bluestonefence.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonefence, "Blue Stone Fence");
 		
-		bluestonegravel = new Blockbluestonegravel(1015, Material.sand).setUnlocalizedName("bluestonegravel").setHardness(1.7F);
+		bluestonegravel = new Blockbluestonegravel(1015, Material.sand).setUnlocalizedName("bluestonegravel").setHardness(0.1F).setStepSound(Block.soundGravelFootstep);
 		GameRegistry.registerBlock(bluestonegravel, modid + bluestonegravel.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonegravel, "Blue Stone Gravel");
 		
-		bluestonetorch= new Blockbluestonetorch(1016, Material.wood).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(1.0f);
+		bluestonetorch = new Blockbluestonetorch(1016, Material.circuits).setUnlocalizedName("bluestonetorch").setHardness(1.5F).setLightOpacity(1).setLightValue(1.0f);
 		GameRegistry.registerBlock(bluestonetorch, modid + bluestonetorch.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonetorch, "Blue Stone Torch");
 		
@@ -313,7 +319,17 @@ public class core {
 		GameRegistry.registerBlock(bluetonewood, modid + bluetonewood.getUnlocalizedName());
 		LanguageRegistry.addName(bluetonewood, "Blue Stone Oak Wood");
 		
+		moltenbluestone = new Blockmoltenbluestone(1033, Material.rock).setUnlocalizedName("moltenbluestone").setHardness(2.0f).setLightValue(0.7F);
+		GameRegistry.registerBlock(moltenbluestone, modid + moltenbluestone.getUnlocalizedName());
+		LanguageRegistry.addName(moltenbluestone, "Molten Blue Stone");
 		
+		moltenbluestoneingot = new Itemmoltenbluestoneingot(1033).setUnlocalizedName("moltenbluestoneingot");
+		LanguageRegistry.addName(moltenbluestoneingot, "Molten Blue Stone Ingot");
+		
+		//liquids 
+		//bluestoneoilstill = new Blockbluestoneoilstill(1033, Material.water).setUnlocalizedName("bluestoneoilstill");
+		//GameRegistry.registerBlock(bluestoneoilstill, "bluestoneoilstill");
+		//LanguageRegistry.addName(bluestoneoilstill, "Blue Stone Oil");
 		
 		
 		//bluestone = new bluestone()
@@ -322,7 +338,9 @@ public class core {
 		GameRegistry.registerBlock(bluestonedirt, modid + bluestonedirt.getUnlocalizedName());
 		LanguageRegistry.addName(bluestonedirt, "Blue Stone Dirt");
 		
-		
+		//handlers 
+		GameRegistry.registerWorldGenerator(eventmanager);
+		GameRegistry.registerFuelHandler(fuelHandler);
 		
 		
 		
@@ -552,6 +570,13 @@ public class core {
 		GameRegistry.addShapelessRecipe(new ItemStack(bluestoneplank,4), new Object[] {
 			bluetonewood
 		});
+		GameRegistry.addShapelessRecipe(new ItemStack(moltenbluestoneingot,9), new Object[] {
+			moltenbluestone
+		});
+		GameRegistry.addRecipe(new ItemStack(moltenbluestone,1), new Object[] {
+			"III","III","III", 'I',moltenbluestoneingot
+		});
+		
 		
 		//machine recipes
 		GameRegistry.addRecipe(new ItemStack(bluestonesmelter,1), new Object[] {
@@ -574,7 +599,7 @@ public class core {
 		
 		
 		
-		
+	    
 				
 		
 		
@@ -592,6 +617,7 @@ public class core {
 	public static void postInit(FMLPostInitializationEvent event) {
 		
 		}
+
 		
 	}
 
