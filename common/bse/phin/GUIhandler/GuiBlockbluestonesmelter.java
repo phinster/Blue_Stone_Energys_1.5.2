@@ -37,6 +37,7 @@ public class GuiBlockbluestonesmelter extends GuiScreen {
 		super.drawScreen(i, j, f);
 		
 		this.drawCenteredString(fontRenderer, "String", width / 2 - 85, height / 2 - 60, 0xffffff);
+		
 	}
 	
 	

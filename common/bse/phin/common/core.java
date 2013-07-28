@@ -3,13 +3,18 @@ package bse.phin.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.BaseMod;
+import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.EnumHelper;
+import bse.phin.GUIhandler.Guibluestonechest;
 import bse.phin.armor.Itembluestoneboots;
 import bse.phin.armor.Itembluestonechestplate;
 import bse.phin.armor.Itembluestonediamondboots;
@@ -23,6 +28,7 @@ import bse.phin.blocks.Blockbluecobblestone;
 import bse.phin.blocks.Blockblueglowstone;
 import bse.phin.blocks.Blockbluesmoothstone;
 import bse.phin.blocks.Blockbluestoneblock;
+import bse.phin.blocks.Blockbluestonechest;
 import bse.phin.blocks.Blockbluestonecoalore;
 import bse.phin.blocks.Blockbluestonediamondblock;
 import bse.phin.blocks.Blockbluestonediamondore;
@@ -61,6 +67,7 @@ import bse.phin.machines.Blockbluestoneforge;
 import bse.phin.machines.Blockbluestoneliquiddeployer;
 import bse.phin.machines.Blockbluestonerockcrusher;
 import bse.phin.machines.Blockbluestonesmelter;
+import bse.phin.tileentitys.tileentitybluestonechest;
 import bse.phin.tool.Itembluestoneaxe;
 import bse.phin.tool.Itembluestonediamondaxe;
 import bse.phin.tool.Itembluestonediamondhoe;
@@ -89,7 +96,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 @Mod(modid = "bse", name = "Blue Stone Energy's", version = "Alpha 1.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 
-public class core {
+public class core extends BaseMod{
 	
 	public static final String modid = "Blue Stone Energy's";
 	
@@ -145,6 +152,7 @@ public class core {
 	public static Block bluesmoothstone;
 	public static Block bluetonewood;
 	public static Block moltenbluestone;
+	public static Block bluestonechest;
 	
 	//liquids
 	public static Block bluestoneoilstill; //
@@ -326,6 +334,11 @@ public class core {
 		moltenbluestoneingot = new Itemmoltenbluestoneingot(1033).setUnlocalizedName("moltenbluestoneingot");
 		LanguageRegistry.addName(moltenbluestoneingot, "Molten Blue Stone Ingot");
 		
+		bluestonechest = new Blockbluestonechest(1034, Material.rock).setUnlocalizedName("bluestonechest").setHardness(1.0F).setLightValue(0.1f);
+		GameRegistry.registerBlock(bluestonechest, modid + bluestonechest.getUnlocalizedName());
+		LanguageRegistry.addName(bluestonechest, "bluestonechest");
+		
+		
 		//liquids 
 		//bluestoneoilstill = new Blockbluestoneoilstill(1033, Material.water).setUnlocalizedName("bluestoneoilstill");
 		//GameRegistry.registerBlock(bluestoneoilstill, "bluestoneoilstill");
@@ -374,7 +387,8 @@ public class core {
 		bluestoneforest = new Biomebluestoneforest(150).setBiomeName("Blue Stone Forest").setMinMaxHeight(0.23F, 0.22F);
 		GameRegistry.addBiome(bluestoneforest);
 		
-		
+		//guireg
+		//ModLoader.registerContainerID(this, 30);
 		
 		
 		/* tool names  + armor */
@@ -590,7 +604,8 @@ public class core {
 		});
 		
 		
-		
+	}
+	
 		
 		
 		
@@ -611,12 +626,36 @@ public class core {
 		
 		
 		
-		}
+		
 	
 	@PostInit
 	public static void postInit(FMLPostInitializationEvent event) {
 		
 		}
+
+	@Override
+	public String getVersion() {
+	
+		return null;
+	}
+
+	@Override
+	public void load() {
+		ModLoader.registerContainerID(this, 0);
+		
+		
+		GameRegistry.registerTileEntity(tileentitybluestonechest.class, "tileentitybluestonechest");
+		}
+			
+			public GuiContainer getContainerGUI(EntityClientPlayerMP player, int id, int x, int y, int z) { 
+				switch(id) { 
+				case 0: 
+					return new Guibluestonechest(player, player.worldObj, x,y,z);
+				default:
+					return null;
+		}
+		
+	}
 
 		
 	}
